@@ -5,8 +5,8 @@ namespace ToDo.Api.Controllers;
 public class ReportController : ControllerBase
 {
     // GET
-    public IActionResult Index()
-    {
-        return View();
-    }
+    // public IActionResult Index()
+    // {
+    //     return View();
+    // }
 }
