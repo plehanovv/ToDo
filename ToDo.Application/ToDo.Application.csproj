@@ -8,15 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Mapping\" />
-      <Folder Include="Validations\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\ToDo.Domain\ToDo.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0-preview1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
       <PackageReference Include="Serilog" Version="4.2.1-dev-02337" />
     </ItemGroup>
