@@ -21,4 +21,10 @@
     <data name="InternalServerError" xml:space="preserve">
         <value>Внутренняя ошибка сервера</value>
     </data>
+    <data name="ReportAlreadyExists" xml:space="preserve">
+        <value>Отчет уже существует</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>Пользователь не найден</value>
+    </data>
 </root>

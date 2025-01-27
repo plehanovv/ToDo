@@ -60,6 +60,15 @@ namespace ToDo.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отчет не найден.
+        /// </summary>
+        internal static string ReportNotFound {
+            get {
+                return ResourceManager.GetString("ReportNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Отчеты не найдены.
         /// </summary>
         internal static string ReportsNotFound {

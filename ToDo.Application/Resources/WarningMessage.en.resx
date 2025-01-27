@@ -14,4 +14,7 @@
     <data name="ReportsNotFound" xml:space="preserve">
         <value>Reports not found</value>
     </data>
+    <data name="ReportNotFound" xml:space="preserve">
+        <value>Report not found</value>
+    </data>
 </root>

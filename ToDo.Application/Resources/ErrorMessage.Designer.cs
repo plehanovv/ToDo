@@ -67,5 +67,23 @@ namespace ToDo.Application.Resources {
                 return ResourceManager.GetString("InternalServerError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отчет уже существует.
+        /// </summary>
+        internal static string ReportAlreadyExists {
+            get {
+                return ResourceManager.GetString("ReportAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пользователь не найден.
+        /// </summary>
+        internal static string UserNotFound {
+            get {
+                return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
     }
 }
