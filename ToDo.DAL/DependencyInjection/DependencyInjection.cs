@@ -20,10 +20,10 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString);
         });
         
-        
+        services.InitRepositories();
     }
 
-    public static void InitRepositories(this IServiceCollection services)
+    private static void InitRepositories(this IServiceCollection services)
     {
         services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
         services.AddScoped<IBaseRepository<Report>, BaseRepository<Report>>();
