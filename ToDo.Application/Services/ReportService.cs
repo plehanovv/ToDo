@@ -22,12 +22,14 @@ public class ReportService : IReportService
     private readonly ILogger _logger;
 
     
-    public ReportService(IBaseRepository<Report> reportRepository, IBaseRepository<User> userRepository, ILogger logger, IReportValidator reportValidator)
+    public ReportService(IBaseRepository<Report> reportRepository, IBaseRepository<User> userRepository, 
+        ILogger logger, IReportValidator reportValidator, IMapper mapper)
     {
         _reportRepository = reportRepository;
         _userRepository = userRepository;
         _logger = logger;
         _reportValidator = reportValidator;
+        _mapper = mapper;
     }
 
     /// <inheritdoc />
