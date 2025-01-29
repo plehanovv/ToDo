@@ -14,7 +14,9 @@ public class DateInterceptor : SaveChangesInterceptor
             return base.SavingChanges(eventData, result);
         }
         
-        var entries = dbContext.ChangeTracker.Entries<IAuditable>();
+        var entries = dbContext.ChangeTracker.Entries<IAuditable>()
+            .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+            .ToList();
 
         foreach (var entry in entries)
         {
