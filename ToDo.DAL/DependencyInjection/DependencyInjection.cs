@@ -12,18 +12,18 @@ public static class DependencyInjection
 {
     public static void AddDataAccessLayer(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("MSSQL");
+        var connectionString = configuration.GetConnectionString("PostgresSQL");
 
         services.AddSingleton<DateInterceptor>();
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(connectionString);
+            options.UseNpgsql(connectionString);
         });
         
-        
+        services.InitRepositories();
     }
 
-    public static void InitRepositories(this IServiceCollection services)
+    private static void InitRepositories(this IServiceCollection services)
     {
         services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
         services.AddScoped<IBaseRepository<Report>, BaseRepository<Report>>();
