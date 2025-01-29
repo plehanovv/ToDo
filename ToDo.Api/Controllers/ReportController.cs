@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Dto.Report;
 using ToDo.Domain.Interfaces.Services;
@@ -5,9 +7,10 @@ using ToDo.Domain.Result;
 
 namespace ToDo.Api.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ReportController : ControllerBase
 {
     private readonly IReportService _reportService;
