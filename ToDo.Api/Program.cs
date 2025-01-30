@@ -2,12 +2,16 @@ using Serilog;
 using ToDo.Api;
 using ToDo.Application.DependencyInjection;
 using ToDo.DAL.DependencyInjection;
+using ToDo.Domain.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddSwagger();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.DefaultSection));
 
+builder.Services.AddControllers();
+
+builder.Services.AddAuthenticationAndAuthorization(builder);
+builder.Services.AddSwagger();
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
