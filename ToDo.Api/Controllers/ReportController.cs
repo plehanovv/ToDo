@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Dto.Report;
 using ToDo.Domain.Interfaces.Services;
@@ -5,9 +7,10 @@ using ToDo.Domain.Result;
 
 namespace ToDo.Api.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ReportController : ControllerBase
 {
     private readonly IReportService _reportService;
@@ -16,7 +19,7 @@ public class ReportController : ControllerBase
     {
         _reportService = reportService;
     }
-    
+
     [HttpGet("reports/{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,6 +59,23 @@ public class ReportController : ControllerBase
         return BadRequest(response);
     }
     
+    /// <summary>
+    /// Создание отчета
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <remarks>
+    /// Request for create report
+    /// 
+    ///     POST
+    ///     {
+    ///         "name": "Report #1",
+    ///         "description": "Test report",
+    ///         "userId": 1
+    ///     }
+    /// 
+    /// </remarks>
+    /// <response code="200">Если отчет создался</response>
+    /// <response code="400">Если отчет не создался</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
