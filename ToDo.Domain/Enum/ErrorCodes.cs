@@ -15,4 +15,5 @@ public enum ErrorCodes
     
     // 21-30 Авторизация и регистрация
     PasswordNotEqualsPasswordConfirm = 21,
+    PasswordIsWrong = 22,
 }
