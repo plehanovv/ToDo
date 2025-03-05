@@ -47,7 +47,6 @@ public class AuthService : IAuthService
                 {
                     ErrorMessage = ErrorMessage.UserAlreadyExists,
                     ErrorCode = (int)ErrorCodes.UserAlreadyExists
-                    
                 };
             }
             
@@ -76,14 +75,48 @@ public class AuthService : IAuthService
         }
     }
 
-    public Task<BaseResult<TokenDto>> Login(LoginUserDto dto)
+    public async Task<BaseResult<TokenDto>> Login(LoginUserDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Login == dto.Login);
+            if (user != null)
+            {
+                return new BaseResult<TokenDto>()
+                {
+                    ErrorMessage = ErrorMessage.UserNotFound,
+                    ErrorCode = (int)ErrorCodes.UserNotFound
+                };
+            }
+            if (!IsVerifyPassword(user.Password, dto.Password))
+            {
+                return new BaseResult<TokenDto>()
+                {
+                    ErrorMessage = ErrorMessage.PasswordIsWrong,
+                    ErrorCode = (int)ErrorCodes.PasswordIsWrong
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, ex.Message);
+            return new BaseResult<TokenDto>()
+            {
+                ErrorMessage = ErrorMessage.InternalServerError,
+                ErrorCode = (int)ErrorCodes.InternalServerError
+            };
+        }
     }
 
     private string HashPassword(string password)
     {
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
         return BitConverter.ToString(bytes).ToLower();
+    }
+
+    private bool IsVerifyPassword(string userPasswordHash, string userPassword)
+    {
+        var hash = HashPassword(userPassword);
+        return hash == userPasswordHash;
     }
 }

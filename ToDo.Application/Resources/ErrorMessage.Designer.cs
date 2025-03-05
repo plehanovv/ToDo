@@ -69,6 +69,15 @@ namespace ToDo.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Неверный пароль.
+        /// </summary>
+        internal static string PasswordIsWrong {
+            get {
+                return ResourceManager.GetString("PasswordIsWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Пароли не равны.
         /// </summary>
         internal static string PasswordNotEqualsPasswordConfirm {
