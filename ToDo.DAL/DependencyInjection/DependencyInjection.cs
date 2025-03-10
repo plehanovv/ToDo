@@ -26,6 +26,7 @@ public static class DependencyInjection
     private static void InitRepositories(this IServiceCollection services)
     {
         services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
+        services.AddScoped<IBaseRepository<UserToken>, BaseRepository<UserToken>>();
         services.AddScoped<IBaseRepository<Report>, BaseRepository<Report>>();
     }
 }
