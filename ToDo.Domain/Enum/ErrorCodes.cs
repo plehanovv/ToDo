@@ -12,6 +12,7 @@ public enum ErrorCodes
     // 11-20 Пользоваель
     UserNotFound = 11,
     UserAlreadyExists = 12,
+    UserUnauthorizedAccess = 13,
     
     // 21-30 Авторизация и регистрация
     PasswordNotEqualsPasswordConfirm = 21,
