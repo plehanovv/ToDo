@@ -7,7 +7,7 @@ using ToDo.Domain.Result;
 namespace ToDo.Api.Controllers;
 
 [ApiController]
-public class AuthController : Controller
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
 
