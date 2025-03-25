@@ -1,4 +1,5 @@
 using ToDo.Domain.Dto.Role;
+using ToDo.Domain.Dto.UserRole;
 using ToDo.Domain.Entity;
 using ToDo.Domain.Result;
 
@@ -36,4 +37,18 @@ public interface IRoleService
     /// <param name="dto"></param>
     /// <returns></returns>
     Task<BaseResult<UserRoleDto>> AddRoleForUserAsync(UserRoleDto dto);
+    
+    /// <summary>
+    /// Удаление роли у пользователя
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task<BaseResult<UserRoleDto>> DeleteRoleForUserAsync(DeleteUserRoleDto dto);
+    
+    /// <summary>
+    /// Обновление роли у пользователя
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task<BaseResult<UserRoleDto>> UpdateRoleForUserAsync(UpdateUserRoleDto dto);
 }
