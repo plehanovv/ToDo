@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ToDo.DAL.Interceptors;
 using ToDo.DAL.Repositories;
 using ToDo.Domain.Entity;
+using ToDo.Domain.Interfaces.Databases;
 using ToDo.Domain.Interfaces.Repositories;
 
 namespace ToDo.DAL.DependencyInjection;
@@ -25,6 +26,7 @@ public static class DependencyInjection
 
     private static void InitRepositories(this IServiceCollection services)
     {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
         services.AddScoped<IBaseRepository<Role>, BaseRepository<Role>>();
         services.AddScoped<IBaseRepository<UserRole>, BaseRepository<UserRole>>();
