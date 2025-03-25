@@ -1,4 +1,4 @@
-namespace ToDo.Domain.Dto.Role;
+namespace ToDo.Domain.Dto.UserRole;
 
 public class UserRoleDto
 {
