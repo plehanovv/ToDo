@@ -114,11 +114,38 @@ namespace ToDo.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Роль уже существует.
+        /// </summary>
+        internal static string RoleAlreadyExists {
+            get {
+                return ResourceManager.GetString("RoleAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Роль не найдена.
+        /// </summary>
+        internal static string RoleNotFound {
+            get {
+                return ResourceManager.GetString("RoleNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Пользователь уже существует.
         /// </summary>
         internal static string UserAlreadyExists {
             get {
                 return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пользователь с такой ролью уже существует.
+        /// </summary>
+        internal static string UserAlreadyExistsThisRole {
+            get {
+                return ResourceManager.GetString("UserAlreadyExistsThisRole", resourceCulture);
             }
         }
         

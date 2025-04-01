@@ -13,8 +13,13 @@ public enum ErrorCodes
     UserNotFound = 11,
     UserAlreadyExists = 12,
     UserUnauthorizedAccess = 13,
+    UserAlreadyExistsThisRole = 14,
     
     // 21-30 Авторизация и регистрация
     PasswordNotEqualsPasswordConfirm = 21,
     PasswordIsWrong = 22,
+    
+    // 31-35 Роли
+    RoleAlreadyExists = 31,
+    RoleNotFound = 32,
 }
