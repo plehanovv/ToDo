@@ -29,7 +29,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ToDo.Application\ToDo.Application.csproj" />
+      <ProjectReference Include="..\ToDo.Consumer\ToDo.Consumer.csproj" />
       <ProjectReference Include="..\ToDo.DAL\ToDo.DAL.csproj" />
+      <ProjectReference Include="..\ToDo.Producer\ToDo.Producer.csproj" />
     </ItemGroup>
 
 </Project>
