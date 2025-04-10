@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Serilog;
 using ToDo.Application.Resources;
 using ToDo.Domain.Dto;
@@ -10,6 +11,8 @@ using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Interfaces.Validations;
 using ToDo.Domain.Result;
+using ToDo.Domain.Settings;
+using ToDo.Producer.Interfaces;
 
 namespace ToDo.Application.Services;
 
@@ -18,18 +21,22 @@ public class ReportService : IReportService
     private readonly IBaseRepository<Report> _reportRepository;
     private readonly IBaseRepository<User> _userRepository;
     private readonly IReportValidator _reportValidator;
+    private readonly IMessageProducer _messageProducer;
+    private readonly IOptions<RabbitMqSettings> _rabbitMqSettings;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 
     
     public ReportService(IBaseRepository<Report> reportRepository, IBaseRepository<User> userRepository, 
-        ILogger logger, IReportValidator reportValidator, IMapper mapper)
+        ILogger logger, IReportValidator reportValidator, IMapper mapper, IMessageProducer messageProducer, IOptions<RabbitMqSettings> rabbitMqSettings)
     {
         _reportRepository = reportRepository;
         _userRepository = userRepository;
         _logger = logger;
         _reportValidator = reportValidator;
         _mapper = mapper;
+        _messageProducer = messageProducer;
+        _rabbitMqSettings = rabbitMqSettings;
     }
 
     /// <inheritdoc />
@@ -130,8 +137,11 @@ public class ReportService : IReportService
             Description = dto.Description,
             UserId = user.Id,
         };
-            
         await _reportRepository.CreateAsync(report);
+        await _reportRepository.SaveChangesAsync();
+        
+        _messageProducer.SendMessage(report, _rabbitMqSettings.Value.RoutingKey, _rabbitMqSettings.Value.ExchangeName);
+        
         return new BaseResult<ReportDto>()
         {
             Data = _mapper.Map<ReportDto>(report)
