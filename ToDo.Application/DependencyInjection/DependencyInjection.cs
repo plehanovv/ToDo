@@ -17,6 +17,8 @@ public static class DependencyInjection
     {
         services.AddAutoMapper(typeof(ReportMapping));
         
+        services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+        
         InitServices(services);
     }
 
