@@ -177,9 +177,9 @@ public class RoleService : IRoleService
             };
         }
         
-        var userRole = _userRoleRepository.GetAll()
+        var userRole = await _userRoleRepository.GetAll()
             .Where(x => x.RoleId == role.Id)
-            .FirstOrDefault(x => x.UserId == user.Id);
+            .FirstOrDefaultAsync(x => x.UserId == user.Id);
         
         _userRoleRepository.Remove(userRole);
         await _userRoleRepository.SaveChangesAsync();
@@ -219,8 +219,8 @@ public class RoleService : IRoleService
             };
         }
         
-        var newRoleFromUser = await _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Id == dto.FromRoleId);
-        if (newRoleFromUser == null)
+        var newRoleForUser = await _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Id == dto.ToRoleId);
+        if (newRoleForUser == null)
         {
             return new BaseResult<UserRoleDto>()
             {
@@ -243,7 +243,7 @@ public class RoleService : IRoleService
                 var newUserRole = new UserRole()
                 {
                     UserId = user.Id,
-                    RoleId = newRoleFromUser.Id
+                    RoleId = newRoleForUser.Id
                 };
                 
                 await _unitOfWork.UserRoles.CreateAsync(newUserRole);
@@ -262,7 +262,7 @@ public class RoleService : IRoleService
             Data = new UserRoleDto()
             {
                 Login = user.Login,
-                RoleName = newRoleFromUser.Name
+                RoleName = newRoleForUser.Name
             }
         };
     }
