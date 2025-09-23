@@ -41,6 +41,7 @@ public class AuthService : IAuthService
 
     public async Task<BaseResult<UserDto>> Register(RegisterUserDto dto)
     {
+        _logger.Information("Registering user: {Login}", dto.Login);
         if (dto.Password != dto.PasswordConfirm)
         {
             return new BaseResult<UserDto>()
@@ -95,9 +96,15 @@ public class AuthService : IAuthService
                 
                 await transaction.CommitAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 await transaction.RollbackAsync();
+                _logger.Error("Registration failed: {Error}", ex.Message);
+                return new BaseResult<UserDto>
+                {
+                    ErrorMessage = ex.Message,
+                    ErrorCode = (int)ErrorCodes.InternalServerError
+                };
             }
         }
         
