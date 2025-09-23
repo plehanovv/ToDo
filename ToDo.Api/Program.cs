@@ -2,11 +2,15 @@ using Serilog;
 using ToDo.Api;
 using ToDo.Api.Middlewares;
 using ToDo.Application.DependencyInjection;
+using ToDo.Consumer.DependencyInjection;
+using ToDo.DAL;
 using ToDo.DAL.DependencyInjection;
 using ToDo.Domain.Settings;
+using ToDo.Producer.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.DefaultSection));
 
 builder.Services.AddControllers();
@@ -18,8 +22,15 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 builder.Services.AddDataAccessLayer(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddProducer();
+builder.Services.AddConsumer();
 
 var app = builder.Build();
+
+await using var scope = app.Services.CreateAsyncScope();
+var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+await db.EnsureDatabaseMigratedAsync();
+
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

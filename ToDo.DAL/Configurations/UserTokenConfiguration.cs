@@ -18,7 +18,7 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
             {
                 Id = 1,
                 RefreshToken = "sdf897g9sf87gsf(*$&@#Nsgdf",
-                RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7),
+                RefreshTokenExpiryTime = new DateTime(2025, 01, 01, 0, 0, 0, DateTimeKind.Utc),
                 UserId = 1
             }
         });
