@@ -3,6 +3,7 @@ using ToDo.Api;
 using ToDo.Api.Middlewares;
 using ToDo.Application.DependencyInjection;
 using ToDo.Consumer.DependencyInjection;
+using ToDo.DAL;
 using ToDo.DAL.DependencyInjection;
 using ToDo.Domain.Settings;
 using ToDo.Producer.DependencyInjection;
@@ -25,6 +26,11 @@ builder.Services.AddProducer();
 builder.Services.AddConsumer();
 
 var app = builder.Build();
+
+await using var scope = app.Services.CreateAsyncScope();
+var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+await db.EnsureDatabaseMigratedAsync();
+
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
