@@ -6,9 +6,17 @@ namespace ToDo.DAL;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    private readonly DateInterceptor _dateInterceptor;
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, DateInterceptor dateInterceptor)
+        : base(options)
     {
-        Database.EnsureCreated();
+        _dateInterceptor = dateInterceptor;
+    }
+    
+    public async Task EnsureDatabaseMigratedAsync()
+    {
+        await Database.MigrateAsync();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -18,6 +26,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.AddInterceptors(new DateInterceptor());
+        if (_dateInterceptor != null)
+            optionsBuilder.AddInterceptors(_dateInterceptor);
     }
 }
