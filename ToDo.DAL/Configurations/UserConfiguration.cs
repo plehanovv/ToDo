@@ -31,7 +31,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 Id = 1,
                 Login = "admin",
                 Password = "admin",
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = new DateTime(2025, 01, 01, 0, 0, 0, DateTimeKind.Utc),
             }
         });
     }

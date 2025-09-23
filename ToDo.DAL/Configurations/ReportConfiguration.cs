@@ -20,7 +20,7 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
                 Name = "Report 1",
                 Description = "Report 1 sdfsdfds",
                 UserId = 1,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = new DateTime(2025, 01, 01, 0, 0, 0, DateTimeKind.Utc),
             }
         });
     }
