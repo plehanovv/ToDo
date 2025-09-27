@@ -7,7 +7,7 @@ using ToDo.Domain.Result;
 
 namespace ToDo.Api.Controllers;
 
-//[Authorize()]
+[Authorize()]
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Serilog;
 using ToDo.Application.Resources;
@@ -7,6 +8,7 @@ using ToDo.Domain.Dto;
 using ToDo.Domain.Dto.Report;
 using ToDo.Domain.Entity;
 using ToDo.Domain.Enum;
+using ToDo.Domain.Extensions;
 using ToDo.Domain.Interfaces.Repositories;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Interfaces.Validations;
@@ -23,12 +25,13 @@ public class ReportService : IReportService
     private readonly IReportValidator _reportValidator;
     private readonly IMessageProducer _messageProducer;
     private readonly IOptions<RabbitMqSettings> _rabbitMqSettings;
+    private readonly IDistributedCache _distributedCache;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 
     
     public ReportService(IBaseRepository<Report> reportRepository, IBaseRepository<User> userRepository, 
-        ILogger logger, IReportValidator reportValidator, IMapper mapper, IMessageProducer messageProducer, IOptions<RabbitMqSettings> rabbitMqSettings)
+        ILogger logger, IReportValidator reportValidator, IMapper mapper, IMessageProducer messageProducer, IOptions<RabbitMqSettings> rabbitMqSettings, IDistributedCache distributedCache)
     {
         _reportRepository = reportRepository;
         _userRepository = userRepository;
@@ -37,6 +40,7 @@ public class ReportService : IReportService
         _mapper = mapper;
         _messageProducer = messageProducer;
         _rabbitMqSettings = rabbitMqSettings;
+        _distributedCache = distributedCache;
     }
 
     /// <inheritdoc />
@@ -109,6 +113,8 @@ public class ReportService : IReportService
                 ErrorCode = (int)ErrorCodes.ReportsNotFound
             });
         }
+        
+        _distributedCache.SetObject($"Report_{id}", report);
         
         return Task.FromResult(new BaseResult<ReportDto>()
         {
