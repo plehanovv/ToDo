@@ -1,21 +1,31 @@
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ToDo.Application.Mapping;
 using ToDo.Application.Services;
 using ToDo.Application.Validations;
-using ToDo.Application.Validations.FluentValidation;
 using ToDo.Application.Validations.FluentValidation.Report;
 using ToDo.Domain.Dto.Report;
 using ToDo.Domain.Interfaces.Services;
 using ToDo.Domain.Interfaces.Validations;
+using ToDo.Domain.Settings;
 
 namespace ToDo.Application.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static void AddApplication(this IServiceCollection services)
+    public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAutoMapper(typeof(ReportMapping));
+
+        var options = configuration.GetSection(nameof(RedisSettings));
+        var redisUrl = options["Url"];
+        var instanceName = options["InstanceName"];
+
+        services.AddStackExchangeRedisCache(redisCacheOptions => {
+            redisCacheOptions.Configuration = redisUrl;
+            redisCacheOptions.InstanceName = instanceName;
+        });
         
         services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
         
